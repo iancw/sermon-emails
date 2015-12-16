@@ -52,6 +52,7 @@ def send_message args
   sender = args[:sender] or raise ArgumentError.new('Must supply sender')
   recipient = args[:recipient] or raise ArgumentError.new('Must supply recipient')
   sermon = args[:sermon] or raise ArgumentError.new('Must supply sermon')
+  server = args[:server] or raise ArgumentError.new('Must specify server')
 
   puts "Sending message to #{recipient.name}..."
 
@@ -66,7 +67,7 @@ Subject: #{sermon.subject}
 
 MESSAGE_END
 
-  Net::SMTP.start('localhost') do |smtp|
+  Net::SMTP.start(server) do |smtp|
       smtp.send_message message, sender.email, recipient.email
   end
 end
@@ -79,10 +80,16 @@ def run
   props = YAML.load_file('config.yml')
   sender = Contact.new(props['from_name'], props['from_email'])
   esv_key = props['esv_key']
+  server = props['server']
 
   sermon = upcoming_sermon esv_key
   recipients = load_recipients 'recipients.yml'
   recipients.each do | recipient|
-    send_message(recipient: recipient, sermon: sermon, sender: sender)
+    send_message(:recipient => recipient,
+                 :sermon => sermon,
+                 :sender => sender,
+                 :server => server)
   end
 end
+
+run
