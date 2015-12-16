@@ -13,7 +13,7 @@ class Sermon
   end
 
   def subject
-    "Sermon for #{date}: #{passage} - #{title}"
+    "Sermon for #{date}: #{title}"
   end
 end
 
@@ -41,10 +41,23 @@ def find_next_sermon upcoming
   raise 'Unable to find any upcoming sermons'
 end
 
+def esv_url esv_key, passage
+  query_params = { :key => esv_key,
+                   :passage => urlify(passage),
+                   'include-headings' => false,
+                   'include-verse-numbers' => false,
+                   'include-footnotes' => false,
+                   'include-footnote-links' => false}
+
+  query = query_params.map{ |k, v| "#{k}=#{v}" }.join('&')
+  "http://www.esvapi.org/v2/rest/passageQuery?#{query}"
+end
+
 def upcoming_sermon esv_key
   upcoming = YAML.load_file('upcoming.yml')
   sermon_hash = find_next_sermon upcoming
-  text = Net::HTTP.get(URI.parse("http://www.esvapi.org/v2/rest/passageQuery?key=#{esv_key}&passage=#{urlify(sermon_hash['passage'])}&include-headings=false"))
+  url = esv_url esv_key, sermon_hash['passage']
+  text = Net::HTTP.get(URI.parse(url))
   Sermon.new sermon_hash, text
 end
 
