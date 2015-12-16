@@ -49,9 +49,12 @@ def upcoming_sermon esv_key
 end
 
 def send_message args
-  sender = args[:sender] || raise ArgumentError.new('Must supply sender')
-  recipient = args[:recipient] || raise ArgumentError.new('Must supply recipient')
-  sermon = args[:sermon] || raise ArgumentError.new('Must supply sermon')
+  sender = args[:sender] or raise ArgumentError.new('Must supply sender')
+  recipient = args[:recipient] or raise ArgumentError.new('Must supply recipient')
+  sermon = args[:sermon] or raise ArgumentError.new('Must supply sermon')
+
+  puts "Sending message to #{recipient.name}..."
+
   message = <<MESSAGE_END
 From: #{sender.name} <#{sender.email}>
 To: #{recipient.name} <#{recipient.email}>
