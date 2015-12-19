@@ -1,0 +1,6 @@
+--- #General config
+from_name: Upcoming Sermon
+from_email: sermons@domain.com
+esv_key: IP
+server: localhost
+
