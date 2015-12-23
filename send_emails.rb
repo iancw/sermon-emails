@@ -31,10 +31,10 @@ def urlify passage
 end
 
 def find_next_sermon upcoming
-  current_date = DateTime.now
+  current_date = Date.today
   upcoming.each do |sermon|
     sermon_date = Date.strptime(sermon['date'], '%B %e')
-    if sermon_date > current_date
+    if sermon_date >= current_date
       return sermon
     end
   end
