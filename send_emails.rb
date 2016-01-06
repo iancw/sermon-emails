@@ -33,7 +33,7 @@ end
 def find_next_sermon upcoming
   current_date = Date.today
   upcoming.each do |sermon|
-    sermon_date = Date.strptime(sermon['date'], '%B %e %Y')
+    sermon_date = Date.strptime(sermon['date'], '%B %e')
     if sermon_date >= current_date
       return sermon
     end
