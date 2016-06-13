@@ -26,6 +26,37 @@ class Contact
   end
 end
 
+class LocalEmailer
+  def initialize args
+    @server = args[:server] or raise ArgumentError.new('Must specify server')
+  end
+
+  def send message, sender, recipient
+    Net::SMTP.start(@server) do |smtp|
+      smtp.send_message message, sender, recipient
+    end
+  end
+end
+
+class AmazonEmailer
+  def initialize args
+    @server = args[:server] or raise ArgumentError.new('Must specify server')
+    @username = args[:username] or raise ArgumentError.new('Must specify username')
+    @password = args[:password] or raise ArgumentError.new('Must specify password')
+    @helo_domain = args[:helo_domain] or raise ArgumentError.new('Must specify helo_domain')
+    @port = args[:port] || 587
+  end
+
+  def send message, sender, recipient
+    smtp = Net::SMTP.new @server, @port
+    smtp.enable_starttls
+    smtp.open_timeout = 120
+    smtp.start @helo_domain, @username, @password, :login do
+      smtp.send_message message, sender, recipient
+    end
+  end
+end
+
 def urlify passage
   passage.gsub(/ /, '+')
 end
@@ -61,11 +92,35 @@ def upcoming_sermon esv_key
   Sermon.new sermon_hash, text
 end
 
+def all_css
+  files = ['styles/esv.css', 'styles/mail.css']
+  content = files.map { |s_file| File.open(s_file, 'rb').read }
+  content.join("\n")
+end
+
+def build_content text
+  content = <<CONTENT_END
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <style>
+    #{all_css}
+    </style>
+  </head>
+  <body>
+  #{text}
+  </body>
+  </html>
+CONTENT_END
+
+  content
+end
+
 def send_message args
   sender = args[:sender] or raise ArgumentError.new('Must supply sender')
   recipient = args[:recipient] or raise ArgumentError.new('Must supply recipient')
   sermon = args[:sermon] or raise ArgumentError.new('Must supply sermon')
-  server = args[:server] or raise ArgumentError.new('Must specify server')
+  emailer = args[:emailer] or raise ArgumentError.new('Must supply emailer')
 
   puts "Sending message to #{recipient.name}..."
 
@@ -76,13 +131,11 @@ MIME-Version: 1.0
 Content-type: text/html
 Subject: #{sermon.subject}
 
-#{sermon.text}
+#{build_content sermon.text}
 
 MESSAGE_END
 
-  Net::SMTP.start(server) do |smtp|
-      smtp.send_message message, sender.email, recipient.email
-  end
+  emailer.send message, sender.email, recipient.email
 end
 
 def load_recipients yml_file
@@ -101,7 +154,7 @@ def run
     send_message(:recipient => recipient,
                  :sermon => sermon,
                  :sender => sender,
-                 :server => server)
+                 :emailer => LocalEmailer.new(:server => server))
   end
 end
 
