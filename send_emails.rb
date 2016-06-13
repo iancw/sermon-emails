@@ -92,6 +92,30 @@ def upcoming_sermon esv_key
   Sermon.new sermon_hash, text
 end
 
+def all_css
+  files = ['styles/esv.css', 'styles/mail.css']
+  content = files.map { |s_file| File.open(s_file, 'rb').read }
+  content.join("\n")
+end
+
+def build_content text
+  content = <<CONTENT_END
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <style>
+    #{all_css}
+    </style>
+  </head>
+  <body>
+  #{text}
+  </body>
+  </html>
+CONTENT_END
+
+  content
+end
+
 def send_message args
   sender = args[:sender] or raise ArgumentError.new('Must supply sender')
   recipient = args[:recipient] or raise ArgumentError.new('Must supply recipient')
@@ -107,7 +131,7 @@ MIME-Version: 1.0
 Content-type: text/html
 Subject: #{sermon.subject}
 
-#{sermon.text}
+#{build_content sermon.text}
 
 MESSAGE_END
 
