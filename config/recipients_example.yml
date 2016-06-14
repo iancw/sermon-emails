@@ -1,0 +1,5 @@
+--- # List of recipients
+- name: Someone's Name
+  email: someone@email.com
+- name: Someone Else's Name
+  email: someone.else@email.com
