@@ -16,14 +16,14 @@ span.chapter-num {
   padding-right: .5em;
 }
 div.esv-text p {
-  text-indent: 2em;
+  text-indent: 0em;
 }
 div.esv-text p.same-paragraph {
   text-indent: 0;
 }
 div.block-indent p {
   text-indent: 0;
-  padding-left: 2.5em;
+  padding-left: 0.5em;
   margin-left: 0;
 }
 span.indent {

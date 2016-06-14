@@ -1,0 +1,7 @@
+--- #SES config
+IAMUserName: node-sermon-emailer
+SMTPUsername: AAAAAAAAAAAAAAAAAA
+SMTPPassword: AAAAAAAAAAAAAAAAAAaaaaaaaaaaa/aaaaaaaaa
+AccessKeyId: AAAAAAAAAAAAAAAAAAAA
+SecretAccessKey: AAAAAAAAAaaaaaaa1111111AAAAAAAAaaaaaaa11111
+Region: us-east-1

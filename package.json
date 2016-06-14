@@ -1,0 +1,31 @@
+{
+  "name": "sermon-emails",
+  "version": "1.0.0",
+  "description": "Sends emails with upcoming sermons",
+  "main": "send-emails.js",
+  "dependencies": {
+    "co": "^4.6.0",
+    "co-request": "^1.0.0",
+    "moment": "^2.14.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.4.9",
+    "yaml2json": "^1.0.2",
+    "tape": "^4.6.0",
+    "tap": "^6.3.0",
+    "nock": "^8.0.0"
+  },
+  "scripts": {
+    "test": "tap *.test.js"
+  },
+  "author": {
+    "name": "Ian Will",
+    "email": "icwill@gmail.com",
+    "url": "http://iancwill.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iancw/sermon-emails"
+  }
+}
