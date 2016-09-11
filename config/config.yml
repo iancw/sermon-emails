@@ -1,5 +1,6 @@
 --- #General config
-from_name: Upcoming Sermon
-from_email: sermons@domain.com
-esv_key: IP
+fromName: Upcoming Sermon
+fromEmail: sermons@domain.com
+esvKey: IP
+timeZone: America/New_York
 
