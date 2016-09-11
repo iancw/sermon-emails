@@ -6,7 +6,7 @@
   "dependencies": {
     "co": "^4.6.0",
     "co-request": "^1.0.0",
-    "moment": "^2.14.1"
+    "moment-timezone": "^0.5.5"
   },
   "devDependencies": {
     "aws-sdk": "^2.4.9",
@@ -16,7 +16,7 @@
     "nock": "^8.0.0"
   },
   "scripts": {
-    "test": "tap *.test.js"
+    "test": "tap js/*.test.js"
   },
   "author": {
     "name": "Ian Will",

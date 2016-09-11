@@ -1,28 +1,16 @@
 'use strict';
 
-const moment = require('moment');
+const moment = require('moment-timezone');
 
-function momentify(dateStr) {
-  return moment(dateStr, 'MMMM D');
-}
-
-function compareDates(a, b) {
-  const aDate = momentify(a.date);
-  const bDate = momentify(b.date);
-  if (aDate.isBefore(bDate)) {
-    return -1;
+function findUpcoming(searchDate, upcoming, tz) {
+  let myTz = tz;
+  if (tz === undefined) {
+    myTz = 'America/New_York';
   }
-  if (aDate.isAfter(bDate)) {
-    return 1;
-  }
-  return 0;
-}
-
-function findUpcoming(date, upcoming) {
+  const searchDateInMyTz = searchDate.clone().tz(myTz);
   for (let sermon of upcoming) {
-    const sermonDate = momentify(sermon.date);
-    //console.log(`comparing sermon date of ${sermonDate.format('MMMM D YYYY')} to current date of ${date.format('MMMM D YYYY')}`);
-    if (sermonDate.isSameOrAfter(date)) {
+    const sermonDate = moment.tz(sermon.date, 'MMMM D', myTz).endOf('day');
+    if (sermonDate.isSameOrAfter(searchDateInMyTz)) {
       return sermon;
     }
   }

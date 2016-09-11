@@ -1,5 +1,5 @@
 'use strict';
-const moment = require('moment');
+const moment = require('moment-timezone');
 const buildMessage = require('./build-message');
 const sendAWS = require('./send-aws');
 const sendToEveryone = require('./send-to-everyone');
@@ -11,7 +11,7 @@ const config = require('./config');
 const privateRecipients = require('./_recipients_private.json');
 
 function fetchText(passage) {
-  return esv.fetchPassage(passage, config.esv_key);
+  return esv.fetchPassage(passage, config.esvKey);
 }
 
 function recipients() {
@@ -19,14 +19,17 @@ function recipients() {
 }
 
 function* sendEmails() {
-  const nextSermon = findUpcoming(moment(), upcoming.sort(compareSermonsByDate));
+  const nextSermon = findUpcoming(
+    moment.tz(config.timeZone),
+    upcoming.sort(compareSermonsByDate),
+    config.timeZone);
   console.log(`Next sermon is ${JSON.stringify(nextSermon)}`)
   const passageText = yield fetchText(nextSermon.passage);
   console.log(`Fetched text for passage ${nextSermon.passage}`);
   console.log(passageText);
   const content = buildMessage(nextSermon, passageText);
   const paramTemplate = {
-    from: `${config.from_name} <${config.from_email}>`,
+    from: `${config.fromName} <${config.fromEmail}>`,
     subject: content.subject,
     bodyHtml: content.bodyHtml
   };
