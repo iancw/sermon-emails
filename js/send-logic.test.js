@@ -23,13 +23,9 @@ tape('test send-logic', function(t) {
     loggedParams: [],
     send: function(params) {
       this.loggedParams.push(params);
-      return {
-        promise: () => {
-          return new Promise((resolve, reject) => {
-            resolve(params);
-          });
-        }
-      };
+      return new Promise((resolve, reject) => {
+        resolve(params);
+      });
     }
   };
 

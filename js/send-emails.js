@@ -7,16 +7,12 @@ const sesEmailer = require('./ses');
 const esv = require('./esv');
 const sendLogic = require('./send-logic');
 
-function recipients() {
-  return privateRecipients;
-}
-
 function* sendEmails() {
   const atDate = moment.tz(config.timeZone);
   const emailer = sesEmailer.create();
   yield sendLogic(
     upcoming,
-    recipients,
+    privateRecipients,
     config,
     atDate,
     emailer,

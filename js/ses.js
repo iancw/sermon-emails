@@ -16,7 +16,7 @@ function toAWSParams(params) {
   return {
     Source: params.from,
     Destination: {
-      ToAddresses: params.to
+      ToAddresses: [params.to]
     },
     Message: {
       Body: {
@@ -40,20 +40,16 @@ function toAWSParams(params) {
  *  - subject (subject link of email)
  */
 function sendWithSes(ses, params) {
-  return ses.sendEmail(toAWSParams(params), (err, data) => {
-    if (err) {
-      console.log(err, err.stack);
-    } else {
-      console.log(data);
-    }
-  });
+  return ses.sendEmail(toAWSParams(params)).promise();
 }
 
 module.exports = {
   create: () => {
     const ses = makeSES();
     return {
-      send: sendWithSes.bind(sendWithSes, ses)
+      send: function(params) {
+        return sendWithSes(ses, params);
+      }
     };
   }
 }

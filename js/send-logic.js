@@ -31,11 +31,7 @@ function* sendLogic(upcoming, recipients, config, atDate, emailer, esvFetch) {
     bodyHtml: content.bodyHtml
   };
 
-  const requests = sendToEveryone(emailer, paramTemplate, recipients);
-
-  console.log(`waiting for ${requests.length} promises`);
-  const resolutions = yield requests.map( req => req.promise());
-  console.log('all promises have resolved');
+  const resolutions = yield sendToEveryone(emailer, paramTemplate, recipients);
   console.log(JSON.stringify(resolutions));
 }
 
