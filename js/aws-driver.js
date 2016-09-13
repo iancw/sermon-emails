@@ -3,7 +3,6 @@
 const co = require('co');
 const sendEmails = require('./send-emails');
 
-
 module.exports = {
   handler: function(event, context) {
     console.log('Received event from AWS Lambda:', JSON.stringify(event, null, 2));

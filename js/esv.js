@@ -27,7 +27,7 @@ function queryParams(passage, esvKey) {
   };
 }
 
-function fetchPassage(passage, key) {
+function fetchPassage(key, passage) {
   return co(function*() {
     const response = yield request('http://www.esvapi.org/v2/rest/passageQuery?'
                   + queryify(queryParams(passage, key)));

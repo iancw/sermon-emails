@@ -10,7 +10,7 @@ tape('test esv api', function(t) {
     .reply(200, 'passage text');
 
   t.plan(1);
-  esv.fetchPassage('Luke 2', 'IP').then(res => {
+  esv.fetchPassage('IP', 'Luke 2').then(res => {
     t.equal(res, 'passage text');
   }).catch((err) => {
     console.log(err.stack);
