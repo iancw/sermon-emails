@@ -2,7 +2,7 @@
 
 const tape = require('tape');
 const compareDates = require('./compare-dates');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 tape('test comparing dates', (t) => {
   t.equal(compareDates({date: 'January 3'}, {date: 'January 17'}),

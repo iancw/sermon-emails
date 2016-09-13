@@ -18,6 +18,7 @@ function* sendEmails() {
     upcoming,
     recipients,
     config,
+    atDate,
     emailer,
     esv.fetchPassage.bind(esv.fetchPassage, config.esvKey));
 }
