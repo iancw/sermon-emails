@@ -39,17 +39,17 @@ function toAWSParams(params) {
  *  - bodyHtml (html contents of email)
  *  - subject (subject link of email)
  */
-function send(ses, params) {
-  return ses.sendEmail(toAWSParams(params), (err, data) => {
-    if (err) console.log(err, err.stack);
-    else console.log(data);
-  });
+function sendWithSes(ses, params) {
+  return ses.sendEmail(toAWSParams(params)).promise();
 }
 
 module.exports = {
   create: () => {
+    const ses = makeSES();
     return {
-      send: send.bind(send, makeSES())
+      send: function(params) {
+        return sendWithSes(ses, params);
+      }
     };
   }
 }
