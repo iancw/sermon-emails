@@ -27,6 +27,7 @@ echo "Fetching configuration from $CONFIG_BUCKET in S3..."
 aws s3 s3://$CONFIG_BUCKET .
 echo "Installing production deps in build"
 npm install --only=production
+zip -r build.zip *
 echo "Syncing code to $CODE_BUCKET bucket in S3..."
-aws s3 sync . s3://$CODE_BUCKET
+aws s3 cp build.zip s3://$CODE_BUCKET/build.zip
 cd ..
