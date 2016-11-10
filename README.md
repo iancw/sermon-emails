@@ -15,11 +15,11 @@ The program is designed to be run in AWS lambda via the `handler` entry point fu
  3. Create an S3 bucket to hold the full build
  4. Run `./bin/deploy <config bucket> <code bucket>`, this will pull down config from the S3 config bucket, merge it with your code, and upload it to the S3 code bucket
  5. Configure a lambda function
-  i. Use the URL of the S3 code bucket on the Code tab
-  i. Use Node.js 4.3 as the runtime
-  i. Use `aws-driver.handler` as the Handler
-  i. Set up roles per your preference
-  i. Set up a CloudWatch Event to schedule the function, I used `cron(0 9 ** ? *)` to configure an email every morning at 5am Eastern time
+  1. Use the URL of the S3 code bucket on the Code tab
+  1. Use Node.js 4.3 as the runtime
+  1. Use `aws-driver.handler` as the Handler
+  1. Set up roles per your preference
+  1. Set up a CloudWatch Event to schedule the function, I used `cron(0 9 ** ? *)` to configure an email every morning at 5am Eastern time
 
 ### Updating Recipients
 
