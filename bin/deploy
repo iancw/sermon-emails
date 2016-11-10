@@ -1,12 +1,12 @@
-CONFIG_BUCKET=$1
-CODE_BUCKET=$2
-
 if [ $# -ne 2 ]
 then
     echo "Usage: deploy <config-bucket> <deploy-bucket>"
     echo " (If you can't remember the exact name of your buckets, run 'aws s3 ls')"
     exit 1
 fi
+
+CONFIG_BUCKET=$1
+CODE_BUCKET=$2
 
 echo "Deleting existing build folder..."
 rm -rf build/
@@ -24,7 +24,7 @@ done
 cd build
 rm *.test.js
 echo "Fetching configuration from $CONFIG_BUCKET in S3..."
-aws s3 s3://$CONFIG_BUCKET .
+aws s3 sync s3://$CONFIG_BUCKET .
 echo "Installing production deps in build"
 npm install --only=production
 zip -r build.zip *
