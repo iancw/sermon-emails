@@ -10,7 +10,7 @@ The program is designed to be run in AWS lambda via the `handler` entry point fu
 ### Initial Setup
 
  0. Set up the AWS CLI following [these instructions](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html)
- 1. Create an S3 bucket for private configuration, including recipients and AWS keys
+ 1. Create one S3 bucket for private configuration (e.g. AWS keys), and another for canonical YAML data including recipients and upcoming sermons
  2. Update config samples in the `config` folder and put all files there (e.g. `_recipients_private.yml`, `_ses_private.yml`, `config.yml`, and `upcoming.yml`
  3. Create an S3 bucket to hold the full build
  4. Run `./bin/deploy <config bucket> <code bucket>`, this will pull down config from the S3 config bucket, merge it with your code, and upload it to the S3 code bucket
@@ -21,11 +21,14 @@ The program is designed to be run in AWS lambda via the `handler` entry point fu
   1. Set up roles per your preference
   1. Set up a CloudWatch Event to schedule the function, I used `cron(0 9 ** ? *)` to configure an email every morning at 5am Eastern time
 
-### Updating Recipients
+### Updating Recipients or Sermon Schedule
 
- 1. Run `./bin/deploy` to pull all config from the S3 bucket
- 2. Add or remove someone from `_recipients_private.yml` in the build folder
- 3. Push that update back up to S3 via `aws s3 cp _recipients_private.yml s3://<config bucket>/_recipients_private.yml`
+ 1. Pull down canonical YAML data via `aws s3 sync s3://canonical-bucket tmp-yaml`
+ 2. Manually update the contents of `_recipients_private.yml` and `upcoming.yml`
+ 3. Sync those updates back to the canonical source via `aws s3 sync tmp-yaml s3://canonical-bucket`
+ 4. Convert those YAML files to JSON and upload to the live bucket via `./bin/update-data tmp-yaml s3://live-bucket`
+
+ The emailer will fetch the updates next time it runs, no need to re-deploy code!
 
 ### Deploying Code
 

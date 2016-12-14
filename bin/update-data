@@ -1,0 +1,22 @@
+if [ $# -ne 2 ]
+then
+    echo "Usage: update-data <local yaml folder> <data-bucket>"
+    echo " (If you can't remember the exact name of your buckets, run 'aws s3 ls')"
+    exit 1
+fi
+
+YAML_DIR=$1
+DATA_BUCKET=$2
+JSON_DIR=$YAML_DIR/json
+
+mkdir $JSON_DIR
+
+for y in $YAML_DIR/*.yml
+do
+  echo "Converting $y to json"
+  z=${y#$YAML_DIR}
+  yaml2json "$y" > "$JSON_DIR/${z%.yml}.json"
+done
+
+aws s3 sync $JSON_DIR s3://$DATA_BUCKET
+

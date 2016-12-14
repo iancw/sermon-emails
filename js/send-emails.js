@@ -1,15 +1,26 @@
 'use strict';
 const moment = require('moment-timezone');
-const upcoming = require('./upcoming');
+const jsYaml = require('js-yaml');
 const config = require('./config');
-const privateRecipients = require('./_recipients_private.json');
 const sesEmailer = require('./ses');
 const esv = require('./esv');
 const sendLogic = require('./send-logic');
+const fetchS3 = require('./fetch-s3');
+
+function* fetchData(key) {
+  const body = yield fetchS3({
+    bucket: config.dataBucket,
+    key: key,
+  });
+  return jsYaml.safeLoad(body);
+}
 
 function* sendEmails() {
   const atDate = moment.tz(config.timeZone);
   const emailer = sesEmailer.create();
+  const upcoming = yield fetchData('upcoming.yml');
+  const privateRecipients = yield fetchData('_recipients_private.yml');
+
   yield sendLogic(
     upcoming,
     privateRecipients,
