@@ -10,7 +10,14 @@ function getCss() {
   return fs.readFileSync('styles/mail.css', 'utf8');
 }
 
-function buildBody(body) {
+function buildPreacher(preacher) {
+  if (preacher) {
+    return `<h2>${preacher}</h2>`
+  }
+  return '';
+}
+
+function buildBody(body, preacher) {
   return `<!DOCTYPE html>
 <html>
   <head>
@@ -19,6 +26,7 @@ function buildBody(body) {
     </style>
   </head>
   <body>
+    ${buildPreacher(preacher)}
     ${body}
   </body>
 </html>`;
@@ -27,7 +35,7 @@ function buildBody(body) {
 function buildMessage(upcoming, text) {
   return {
     subject: buildSubject(upcoming),
-    bodyHtml: buildBody(text)
+    bodyHtml: buildBody(text, upcoming.preacher)
   };
 }
 
