@@ -1,43 +1,23 @@
 #!/bin/bash
-if [ $# -ne 2 ]
-then
-    echo "Usage: deploy <config-bucket> <deploy-bucket>"
-    echo " (If you can't remember the exact name of your buckets, run 'aws s3 ls')"
-    exit 1
-fi
-
-CONFIG_BUCKET=$1
-CODE_BUCKET=$2
 
 echo "Deleting existing build folder..."
 rm -rf build/
 
 echo "Copying files to build dir"
 mkdir build
-cp js/*.js build
+rsync -r src/ build/
 cp package.json build/
 rsync -r styles build/
 
 cd build
 
-S3_CONFIG=./s3-config
-echo "Fetching configuration from $CONFIG_BUCKET in S3..."
-aws s3 sync s3://$CONFIG_BUCKET $S3_CONFIG
-
-for y in $S3_CONFIG/*.yml
-do
-  echo "Converting $y to json"
-  z=${y#$S3_CONFIG}
-  yaml2json "$y" > "$(pwd)/${z%.yml}.json"
-done
-
-rm *.test.js
+echo "Deleting tests"
+find . -name "*.test.js" | xargs rm
 
 echo "Installing production deps in build"
 npm install --only=production
 
-echo "Bunding files into zip"
+echo "Bunding files into build.zip..."
 zip -r build.zip *
-echo "Syncing code to $CODE_BUCKET bucket in S3..."
-aws s3 cp build.zip s3://$CODE_BUCKET/build.zip
-cd ..
+
+echo "Done!"

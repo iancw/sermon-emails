@@ -1,4 +1,7 @@
 node_modules/
+fixtures
+buckets
 *_private.*
 *.zip
 build/
+.env

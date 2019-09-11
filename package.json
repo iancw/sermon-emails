@@ -4,21 +4,24 @@
   "description": "Sends emails with upcoming sermons",
   "main": "send-emails.js",
   "dependencies": {
-    "co": "^4.6.0",
-    "co-request": "^1.0.0",
-    "js-yaml": "^3.7.0",
-    "lodash": "^4.15.0",
+    "got": "^9.6.0",
     "moment-timezone": "^0.5.5"
   },
   "devDependencies": {
+    "js-yaml": "^3.7.0",
+    "ava": "^2.3.0",
     "aws-sdk": "^2.4.9",
-    "yaml2json": "^1.0.2",
-    "tape": "^4.6.0",
-    "tap": "^6.3.0",
-    "nock": "^8.0.0"
+    "dotenv": "^8.1.0",
+    "nock": "^10.0.6"
+  },
+  "ava": {
+    "files": [
+      "src/**/*.test.js",
+      "!js/"
+    ]
   },
   "scripts": {
-    "test": "tap js/*.test.js"
+    "test": "tap js/*.test.js && ava src"
   },
   "author": {
     "name": "Ian Will",

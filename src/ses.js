@@ -1,16 +1,11 @@
-'use strict';
-
 const AWS = require('aws-sdk');
-const sesConfig = require('./_ses_private.json');
 
-function makeSES() {
-  return new AWS.SES({
-    accessKeyId: sesConfig.AccessKeyId,
-    secretAccessKey: sesConfig.SecretAccessKey,
-    region: sesConfig.Region,
+const getSES = () => new AWS.SES({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    region: process.env.REGION,
     apiVersion: '2010-12-01'
-  });
-}
+});
 
 function toAWSParams(params) {
   return {
@@ -39,18 +34,12 @@ function toAWSParams(params) {
  *  - bodyHtml (html contents of email)
  *  - subject (subject link of email)
  */
-function sendWithSes(ses, params) {
-  return ses.sendEmail(toAWSParams(params)).promise();
+function send(params) {
+    const ses = getSES();
+    return ses.sendEmail(toAWSParams(params)).promise();
 }
 
 module.exports = {
-  create: () => {
-    const ses = makeSES();
-    return {
-      send: function(params) {
-        return sendWithSes(ses, params);
-      }
-    };
-  }
-}
+    send,
+};
 
