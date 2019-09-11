@@ -56,7 +56,7 @@ function buildBody({passageText, preacher, footer}) {
 function buildMessage({upcoming, passageText, fromEmail}) {
   return {
     subject: buildSubject(upcoming),
-    bodyHtml: buildBody({passageText, precher: upcoming.preacher, footer: footer(fromEmail)})
+    bodyHtml: buildBody({passageText, preacher: upcoming.preacher, footer: footer(fromEmail)})
   };
 }
 

@@ -6,9 +6,9 @@ const buildEmail = require('.');
 ava('Builds messages', async (t) => {
     const email = await buildEmail({
         upcoming: [
-            { date: 'January 3', passage: 'Luke 18:9-30', title: 'Jan sermon' },
-            { date: 'January 17', passage: 'Luke 18:31-19:44', title: 'Second sermon in Jan' },
-            { date: 'April 1', passage: 'Psalm 1:1', title: 'A sermon for April'}
+            { date: 'January 3', passage: 'Luke 18:9-30', preacher: 'John Doe', title: 'Jan sermon' },
+            { date: 'January 17', passage: 'Luke 18:31-19:44', preacher: 'Richard Sibbes', title: 'Second sermon in Jan' },
+            { date: 'April 1', passage: 'Psalm 1:1', preacher: 'John Calvin', title: 'A sermon for April'}
         ],
         config: {
             timeZone: 'America/New_York',

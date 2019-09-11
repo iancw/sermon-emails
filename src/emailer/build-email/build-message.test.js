@@ -6,6 +6,7 @@ ava('test build-message', function (t) {
     upcoming: {
       date: 'January 3',
       passage: 'Luke 18:9-30',
+      preacher: 'Preacher Man',
       title: 'Sermon Title'
     },
     passageText: 'Some biblical text',
@@ -27,9 +28,13 @@ ava('test build-message', function (t) {
     message.bodyHtml.includes('mailto:from@fromy.from?subject=Unsubscribe'),
     true
   );
-
   t.is(
     message.bodyHtml.includes('mailto:from@fromy.from?subject=Subscribe'),
     true
   );
+  t.is(
+    message.bodyHtml.includes('Preacher Man'),
+    true
+  );
+
 });
