@@ -35,7 +35,7 @@ function footer(fromEmail) {
   `;
 }
 
-function buildBody({passageText, footer}) {
+function buildBody({passageText, preacher, footer}) {
   return `<!DOCTYPE html>
 <html>
   <head>
@@ -44,6 +44,7 @@ function buildBody({passageText, footer}) {
     </style>
   </head>
   <body>
+    ${preacher ? `<h2>${preacher}</h2>` : ''}
     <div class="passage">
     ${passageText}
     </div>
@@ -55,7 +56,7 @@ function buildBody({passageText, footer}) {
 function buildMessage({upcoming, passageText, fromEmail}) {
   return {
     subject: buildSubject(upcoming),
-    bodyHtml: buildBody({passageText, footer: footer(fromEmail)})
+    bodyHtml: buildBody({passageText, precher: upcoming.preacher, footer: footer(fromEmail)})
   };
 }
 
