@@ -3,7 +3,6 @@ const {readRecipients, writeRecipients} = require('../recipients');
 const {notify} = require('./notifier');
 
 module.exports.handler = async (event) => {
-
     const priorRecipients = await readRecipients();
     const {effects, recipients} = updateRecipients({recipients: priorRecipients, event});
     await writeRecipients(recipients);

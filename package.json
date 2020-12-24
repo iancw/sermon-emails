@@ -8,10 +8,9 @@
     "moment-timezone": "^0.5.5"
   },
   "devDependencies": {
-    "ava": "^2.3.0",
+    "ava": "^3.14.0",
     "aws-sdk": "^2.526.0",
     "dotenv": "^8.1.0",
-    "js-yaml": "^3.13.1",
     "nock": "^10.0.6"
   },
   "ava": {
@@ -21,7 +20,7 @@
     ]
   },
   "scripts": {
-    "test": "tap js/*.test.js && ava src"
+    "test": "ava"
   },
   "author": {
     "name": "Ian Will",
