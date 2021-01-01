@@ -1,14 +1,6 @@
-const moment = require('moment-timezone');
-
-function findUpcoming(searchDate, upcoming, tz) {
-  let myTz = tz;
-  if (tz === undefined) {
-    myTz = 'America/New_York';
-  }
-  const searchDateInMyTz = searchDate.clone().tz(myTz);
+function findUpcoming(searchDate, upcoming) {
   for (let sermon of upcoming) {
-    const sermonDate = moment.tz(sermon.date, 'MMMM D', myTz).endOf('day');
-    if (sermonDate.isSameOrAfter(searchDateInMyTz)) {
+    if (sermon.date >= searchDate) {
       return sermon;
     }
   }

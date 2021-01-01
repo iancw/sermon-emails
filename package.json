@@ -4,8 +4,7 @@
   "description": "Sends emails with upcoming sermons",
   "main": "send-emails.js",
   "dependencies": {
-    "got": "^9.6.0",
-    "moment-timezone": "^0.5.5"
+    "got": "^9.6.0"
   },
   "devDependencies": {
     "ava": "^3.14.0",

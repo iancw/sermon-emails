@@ -19,7 +19,7 @@ ava.afterEach((t) => {
     nock.back.setMode('wild');
 });
 
-ava('Sends emails', async (t) => {
+ava.skip('Sends emails', async (t) => {
     const result = await handler();
     t.deepEqual(
         result,

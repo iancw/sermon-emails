@@ -1,5 +1,5 @@
 function buildSubject(upcoming) {
-  return `Sermon for ${upcoming.date}: ${upcoming.title}`;
+  return `Sermon for ${upcoming.date.toLocaleDateString('en-US', {month: 'long', day: 'numeric'})}: ${upcoming.title}`;
 }
 
 function getCss() {

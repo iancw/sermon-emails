@@ -1,5 +1,4 @@
 const {send} = require('../ses');
-const moment = require('moment-timezone');
 const buildEmail = require('./build-email');
 const esv = require('./esv');
 const {readUpcoming} = require('../upcoming');
@@ -12,7 +11,7 @@ const buildAndSend = async (recipients) => {
             fromName: process.env.FROM_NAME,
             fromEmail: process.env.FROM_EMAIL,
         },
-        atDate: moment.tz(),
+        atDate: new Date(),
         esv,
     });
 

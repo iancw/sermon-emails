@@ -4,7 +4,7 @@ const buildMessage = require('./build-message');
 ava('test build-message', function (t) {
   const message = buildMessage({
     upcoming: {
-      date: 'January 3',
+      date: new Date('2020-01-03'),
       passage: 'Luke 18:9-30',
       preacher: 'Preacher Man',
       title: 'Sermon Title'
