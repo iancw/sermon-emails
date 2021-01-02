@@ -1,7 +1,0 @@
---- #General config
-fromName: Upcoming Sermon
-fromEmail: sermons@domain.com
-dataBucket: sermon-data
-esvKey: IP
-timeZone: America/New_York
-

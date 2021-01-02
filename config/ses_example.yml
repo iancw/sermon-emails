@@ -1,7 +1,0 @@
---- #SES config
-IAMUserName: some-user-name
-SMTPUsername: AAAAAAAAAAAAAAAAAA
-SMTPPassword: AAAAAAAAAAAAAAAAAAaaaaaaaaaaa/aaaaaaaaa
-AccessKeyId: AAAAAAAAAAAAAAAAAAAA
-SecretAccessKey: AAAAAAAAAaaaaaaa1111111AAAAAAAAaaaaaaa11111
-Region: some-aws-region

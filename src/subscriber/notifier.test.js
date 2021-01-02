@@ -6,8 +6,6 @@ const nockGoogleSheets = require('../upcoming/nock.rec.js');
 
 process.env.FROM_EMAIL='fromy@from.from';
 process.env.REGION='us-east-1';
-process.env.UPCOMING_BUCKET='bucket';
-process.env.UPCOMING_KEY='upcoming.json';
 process.env.ESV_KEY='fake-key';
 
 ava.beforeEach(() => {
