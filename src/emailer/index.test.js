@@ -1,13 +1,15 @@
 const ava = require('ava').serial;
 const nock = require('nock');
-const path = require('path');
 require('dotenv').config();
 
 const {handler} = require('.');
 
-nock.back.fixtures = path.join(__dirname, '..', '..', 'fixtures');
+nock.back.fixtures = __dirname + '/nockFixtures';
 
 ava.beforeEach(async (t) => {
+    // Set mode to 'record' and run once after setting up .env properly
+    // Note! This _will_ actually send an email when run in 'record' mode. So set up
+    // RECIPIENTS_KEY to point to a test file rather than the real list of recipients
     nock.back.setMode('lockdown');
     const {nockDone} = await nock.back('emailer.json');
 
@@ -19,7 +21,7 @@ ava.afterEach((t) => {
     nock.back.setMode('wild');
 });
 
-ava.skip('Sends emails', async (t) => {
+ava('Sends emails', async (t) => {
     const result = await handler();
     t.deepEqual(
         result,

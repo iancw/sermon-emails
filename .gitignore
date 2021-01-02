@@ -5,3 +5,4 @@ buckets
 *.zip
 build/
 .env
+nockFixtures

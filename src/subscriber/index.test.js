@@ -2,6 +2,7 @@ const ava = require('ava').serial;
 const nock = require('nock');
 
 const {handler} = require('./index');
+const nockGoogleSheets = require('../upcoming/nock.rec.js');
 
 const bucket = 'bucket';
 const key = 'key';
@@ -15,11 +16,13 @@ process.env.UPCOMING_BUCKET='bucket';
 process.env.UPCOMING_KEY='upcoming.json';
 process.env.ESV_KEY='fake-key';
 
-ava.beforeEach(() => nock.disableNetConnect());
-
+ava.beforeEach(() => {
+    nock.disableNetConnect();
+    nockGoogleSheets();
+});
 ava.afterEach(() => nock.cleanAll());
 
-ava.skip('Adding new record', async (t) => {
+ava('Adding new record', async (t) => {
     nock(`https://${bucket}.s3.amazonaws.com:443`)
         .get(`/upcoming.json`)
         .reply(200, [{
@@ -71,7 +74,6 @@ ava.skip('Adding new record', async (t) => {
 });
 
 ava('Adding duplicate record', async (t) => {
-
     nock(`https://${bucket}.s3.amazonaws.com:443`)
         .get(`/${key}`)
         .reply(200, [{
@@ -105,9 +107,7 @@ ava('Adding duplicate record', async (t) => {
     );
 });
 
-
 ava('Removing existing record', async (t) => {
-
     nock(`https://${bucket}.s3.amazonaws.com:443`)
         .get(`/key`)
         .reply(200, [{

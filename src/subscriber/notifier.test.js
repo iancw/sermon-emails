@@ -2,13 +2,18 @@ const ava = require('ava').serial;
 const nock = require('nock');
 
 const {notify} = require('./notifier');
+const nockGoogleSheets = require('../upcoming/nock.rec.js');
+
 process.env.FROM_EMAIL='fromy@from.from';
 process.env.REGION='us-east-1';
 process.env.UPCOMING_BUCKET='bucket';
 process.env.UPCOMING_KEY='upcoming.json';
 process.env.ESV_KEY='fake-key';
 
-ava.beforeEach(() => nock.disableNetConnect());
+ava.beforeEach(() => {
+    nock.disableNetConnect();
+    nockGoogleSheets();
+});
 
 ava.afterEach(() => nock.cleanAll());
 
@@ -28,7 +33,7 @@ ava('notify removal', async (t) => {
     );
 });
 
-ava.skip('notify addition', async (t) => {
+ava('notify addition', async (t) => {
     const sentBothEmails = nock(`https://email.us-east-1.amazonaws.com:443`)
         .post('/')
         .times(2)
