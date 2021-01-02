@@ -34,8 +34,9 @@ function onData(data) {
           rawSermons[cell.row].rawDate = cell.$t;
           var matches = cell.$t.match(/(\d+)-(\w+)-(\d+)/);
            
-          var d = new Date(matches[2] + " " + matches[1] + " 20" + matches[3]);
-          d.setHours(14,0,0,0);
+          // Setting hours to 19 allows the date to match in Eastern Time, even when
+          // downstream consumers forget to output the date related to UTC
+          var d = new Date(`${matches[2]} ${matches[1]} 20${matches[3]} 19:00:00 UTC`);
           rawSermons[cell.row].date = d;
           break;
       }
