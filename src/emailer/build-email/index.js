@@ -2,10 +2,12 @@ const findUpcoming = require('./find-upcoming');
 const buildMessage = require('./build-message');
 
 async function buildEmail({upcoming, config, atDate, esv}) {
+  console.log(`Buliding email for current date ${atDate}...`);
   const nextSermon = findUpcoming(
     atDate,
-    upcoming.sort(),
+    upcoming,
   );
+  console.log(`Found next sermon: ${JSON.stringify(nextSermon)}`);
 
   const passageText = await esv.read(nextSermon.passage);
 
