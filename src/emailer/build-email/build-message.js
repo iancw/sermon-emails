@@ -1,5 +1,5 @@
 function buildSubject(upcoming) {
-  return `Sermon for ${upcoming.date.toLocaleDateString('en-US', {month: 'long', day: 'numeric', timeZone: 'UTC'})}: ${upcoming.title}`;
+  return `Sermon for ${upcoming.date.toLocaleDateString('en-US', {month: 'long', day: 'numeric', timeZone: 'UTC'})}: ${upcoming.passage} ${upcoming.title}`;
 }
 
 function getCss() {
@@ -28,14 +28,19 @@ function getCss() {
   `;
 }
 
+const copyright = `Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), copyright © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.`;
+
 function footer(fromEmail) {
   return `
+  <p class="copyright">${copyright}</p>
+  <p class="subscription">
   Click here to <a href="mailto:${fromEmail}?subject=Unsubscribe">unsubscribe</a>, or
   share this <a href="mailto:${fromEmail}?subject=Subscribe">subscribe</a> link with a friend!
+  </p>
   `;
 }
 
-function buildBody({passageText, preacher, footer}) {
+function buildBody({passageText, preacher, title, reference, footer}) {
   return `<!DOCTYPE html>
 <html>
   <head>
@@ -44,7 +49,7 @@ function buildBody({passageText, preacher, footer}) {
     </style>
   </head>
   <body>
-    ${preacher ? `<h2>${preacher}</h2>` : ''}
+    <h2>${title} ${preacher ? `(${preacher})` : ''}</h2>
     <div class="passage">
     ${passageText}
     </div>
@@ -56,7 +61,7 @@ function buildBody({passageText, preacher, footer}) {
 function buildMessage({upcoming, passageText, fromEmail}) {
   return {
     subject: buildSubject(upcoming),
-    bodyHtml: buildBody({passageText, preacher: upcoming.preacher, footer: footer(fromEmail)})
+    bodyHtml: buildBody({passageText, preacher: upcoming.preacher, title: upcoming.title, footer: footer(fromEmail)})
   };
 }
 
