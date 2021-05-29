@@ -1,23 +1,18 @@
-const url = require('url');
 const got = require('got');
 
 async function read(passage) {
-    const passageUrl = url.format({
-        protocol: 'http',
-        hostname: 'www.esvapi.org',
-        pathname: '/v2/rest/passageQuery',
-        query: {
-            'include-headings': false,
-            'include-verse-numbers': false,
-            'include-footnotes': false,
-            'include-footnote-links': false,
-            key: process.env.ESV_KEY,
-            passage: passage.replace(' ', '+'),
-        }
-    });
-    const response = await got(passageUrl);
+    const passageUrl = new URL('https://api.esv.org/v3/passage/text/')
+    passageUrl.searchParams.append('q', passage);
+    passageUrl.searchParams.append('include-passage-references', false);
+    passageUrl.searchParams.append('include-verse-numbers', false);
+    passageUrl.searchParams.append('include-first-verse-numbers', false);
+    passageUrl.searchParams.append('include-footnotes', false);
 
-    return response.body;
+    const response = await got(passageUrl, {headers: {
+        'Authorization': `Token ${process.env.ESV_KEY}`
+    }});
+
+    return JSON.parse(response.body).passages[0];
 }
 
 module.exports = {
