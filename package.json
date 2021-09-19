@@ -4,6 +4,7 @@
   "description": "Sends emails with upcoming sermons",
   "main": "send-emails.js",
   "dependencies": {
+    "googleapis": "^39.2.0",
     "got": "^9.6.0"
   },
   "devDependencies": {
