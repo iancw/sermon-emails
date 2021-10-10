@@ -52,7 +52,7 @@ const doSubscribe = ({name, email}) => {
   }
   return {
     action: actions.ADD,
-    recipient: {name, email},
+    recipient: {name, email, dateAdded: new Date().toISOString().slice(0, 10)},
   };
 }
 

@@ -96,16 +96,16 @@ ava('updateRecipients - add', (t) => {
             { name: 'One', email: 'one@one.com' },
             { name: 'Two two', email: 'two@two.com' },
             { name: 'Three three', email: 'three@three.com' },
-            { name: 'Name Schmame', email: 'new@new.com'},
-            { name: undefined, email: 'another@anon.com'},
+            { name: 'Name Schmame', email: 'new@new.com', dateAdded: new Date().toISOString().slice(0, 10)},
+            { name: undefined, email: 'another@anon.com', dateAdded: new Date().toISOString().slice(0, 10)},
         ]
     );
 
     t.deepEqual(
         effects,
         [
-            { action: 'ADD', recipient:  { name: 'Name Schmame', email: 'new@new.com'},},
-            { action: 'ADD', recipient: { name: undefined, email: 'another@anon.com'}},
+            { action: 'ADD', recipient:  { name: 'Name Schmame', email: 'new@new.com', dateAdded: new Date().toISOString().slice(0, 10)},},
+            { action: 'ADD', recipient: { name: undefined, email: 'another@anon.com', dateAdded: new Date().toISOString().slice(0, 10)}},
         ]
     );
 });

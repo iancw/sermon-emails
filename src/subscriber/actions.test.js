@@ -41,6 +41,7 @@ ava('createActions', (t) => {
         {
             action: 'ADD',
             recipient: {
+                dateAdded: new Date().toISOString().slice(0, 10),
                 name: 'Name Schmame',
                 email: 'name.schmame@mailer.net'
             }
