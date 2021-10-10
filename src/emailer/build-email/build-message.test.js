@@ -13,7 +13,7 @@ ava('test build-message', function (t) {
     fromEmail: 'from@fromy.from'
   });
 
-  t.deepEqual(message.subject, 'Sermon for January 3: Sermon Title');
+  t.deepEqual(message.subject, 'Sermon for January 3: Luke 18:9-30 Sermon Title');
   t.is(
     message.bodyHtml.includes('Some biblical text'),
     true,

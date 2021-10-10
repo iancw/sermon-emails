@@ -2,12 +2,13 @@ const ava = require('ava').serial;
 const nock = require('nock');
 
 const {handler} = require('./index');
-const nockGoogleSheets = require('../upcoming/nock.rec.js');
 
 const bucket = 'bucket';
 const key = 'key';
 process.env.RECIPIENTS_BUCKET=bucket;
 process.env.RECIPIENTS_KEY=key;
+process.env.UPCOMING_BUCKET=bucket
+process.env.UPCOMING_KEY='upcoming.json';
 process.env.FROM_EMAIL='fromy@from.from';
 process.env.REGION='us-east-1';
 process.env.ACCESS_KEY_ID='ACCESS_KEY_ID';
@@ -16,7 +17,6 @@ process.env.ESV_KEY='fake-key';
 
 ava.beforeEach(() => {
     nock.disableNetConnect();
-    nockGoogleSheets();
 });
 ava.afterEach(() => nock.cleanAll());
 
@@ -39,10 +39,10 @@ ava('Adding new record', async (t) => {
         .times(2)
         .reply(200);
 
-    nock('http://www.esvapi.org:80')
-        .filteringPath((path) => '/v2/rest/passageQuery')
-        .get('/v2/rest/passageQuery')
-        .reply(200, 'Lorem ipsum');
+    nock('https://api.esv.org')
+        .get('/v3/passage/html/')
+        .query(true)
+        .reply(200, JSON.stringify({passages: ['Lorem ipsum']}))
 
     t.deepEqual(
         await handler({

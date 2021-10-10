@@ -2,15 +2,15 @@ const ava = require('ava').serial;
 const nock = require('nock');
 
 const {notify} = require('./notifier');
-const nockGoogleSheets = require('../upcoming/nock.rec.js');
 
 process.env.FROM_EMAIL='fromy@from.from';
 process.env.REGION='us-east-1';
 process.env.ESV_KEY='fake-key';
+process.env.UPCOMING_BUCKET='bucket';
+process.env.UPCOMING_KEY='upcoming.json';
 
 ava.beforeEach(() => {
     nock.disableNetConnect();
-    nockGoogleSheets();
 });
 
 ava.afterEach(() => nock.cleanAll());
@@ -46,13 +46,13 @@ ava('notify addition', async (t) => {
             preacher: 'Richard Sibbes'
         }]);
 
-    const queriedPassage = nock('http://www.esvapi.org:80')
-        .filteringPath((path) => '/v2/rest/passageQuery')
-        .get('/v2/rest/passageQuery')
-        .reply(200, 'Lorem ipsum');
+    const queriedPassage =  nock('https://api.esv.org')
+        .get('/v3/passage/html/')
+        .query(true)
+        .reply(200, JSON.stringify({passages: ['Lorem ipsum']}))
 
     t.is(
-        await notify('from@fromy.from')({
+        await notify('fromy@from.from')({
             action:"ADD",
             recipient:{name:"Doesnt matter",email:"hi@hello.hi"}
         }),

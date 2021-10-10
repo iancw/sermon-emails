@@ -1,5 +1,5 @@
 function buildSubject(upcoming) {
-  return `Sermon for ${upcoming.date.toLocaleDateString('en-US', {month: 'long', day: 'numeric', timeZone: 'UTC'})}: ${upcoming.passage} ${upcoming.title}`;
+  return `Sermon for ${new Date(upcoming.date).toLocaleDateString('en-US', {month: 'long', day: 'numeric', timeZone: 'UTC'})}: ${upcoming.passage} ${upcoming.title}`;
 }
 
 function getCss() {

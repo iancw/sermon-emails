@@ -1,6 +1,6 @@
 function findUpcoming(searchDate, upcoming) {
   for (let sermon of upcoming) {
-    if (sermon.date >= searchDate) {
+    if (new Date(sermon.date) >= searchDate) {
       return sermon;
     }
   }
