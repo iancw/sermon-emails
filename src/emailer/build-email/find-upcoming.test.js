@@ -54,10 +54,10 @@ ava('Should find next sermon if your dates are specified in Perth zone', (t) => 
     findUpcoming(
       new Date('2020-01-03'),
       [
-        { date: new Date('2020-01-03'), passage: 'Luke 18:9-30' },
-        { date: new Date('2020-01-17'), passage: 'Luke 18:31-19:44' },
+        { date: '2020-01-03', passage: 'Luke 18:9-30' },
+        { date: '2020-01-17', passage: 'Luke 18:31-19:44' },
       ],
     ).date,
-    new Date('2020-01-03')
+    '2020-01-03'
   );
 });
