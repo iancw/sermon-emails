@@ -91,12 +91,10 @@ const farewell = async ({fromEmail, name, email}) => {
 const notify = (fromEmail) => async ({action, recipient}) => {
     if (isAdd({action})) {
         await welcome({fromEmail, ...recipient});
-        console.log(`Welcomed ${recipient.name}`)
         return `Welcomed ${recipient.name}`;
     }
     if (isRemove({action})) {
         await farewell({fromEmail, ...recipient});
-        console.log(`Bade farewell to ${recipient.name}`)
         return `Bade farewell to ${recipient.name}`;
     }
     return 'Did nothing';
