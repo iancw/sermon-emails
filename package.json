@@ -4,10 +4,10 @@
   "description": "Sends emails with upcoming sermons",
   "main": "send-emails.js",
   "dependencies": {
-    "got": "^9.6.0"
+    "got": "^12.5.3"
   },
   "devDependencies": {
-    "ava": "^3.14.0",
+    "ava": "^5.2.0",
     "aws-sdk": "^2.526.0",
     "dotenv": "^8.1.0",
     "nock": "^11"
